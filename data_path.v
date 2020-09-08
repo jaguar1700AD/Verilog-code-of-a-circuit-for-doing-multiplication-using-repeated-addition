@@ -1,5 +1,5 @@
 module data_path(ldA, ldB, ldP, clrP, decB, eqZ, data_in, clk);
-	input ldA, ldB, ldP, clrP, decP;
+	input ldA, ldB, ldP, clrP, decB;
 	input [15:0] data_in;
 	input clk;
 	output eqZ;
@@ -18,7 +18,7 @@ endmodule
 module PIPO1 (ldA, Bus, X, clk);
 	input ldA, clk;
 	input [15:0] Bus;
-	output [15:0] X;
+	output reg [15:0] X;
 
 	always @(posedge clk)
 	begin
@@ -27,9 +27,9 @@ module PIPO1 (ldA, Bus, X, clk);
 endmodule 
 
 module PIPO2 (ldP, clrP, Z, Y, clk);
-	input ldA, clrP, clk;
+	input ldP, clrP, clk;
 	input [15:0] Z;
-	output [15:0] Y;
+	output reg [15:0] Y;
 
 	always @(posedge clk)
 	begin
@@ -41,11 +41,11 @@ endmodule
 module PIPO3 (ldB, decB, Bus, Bout, clk);
 	input ldB, decB, clk;
 	input [15:0] Bus;
-	output [15:0] Bout;
+	output reg [15:0] Bout;
 
 	always @(posedge clk)
 	begin
-		if (ldB) Bout <= 16'b0;
+		if (ldB) Bout <= Bus;
 		else if (decB) Bout <= Bout - 1;
 	end
 endmodule 
@@ -57,7 +57,9 @@ module ADDER (X, Y, Z);
 endmodule
 
 module COMP (Bout, eqZ);
-	assign eqZ = (Bout == 0);
+	input [15:0] Bout;
+	output eqZ;
+	assign eqZ = (Bout == 1);
 endmodule
 
 

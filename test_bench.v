@@ -9,8 +9,8 @@ module test_bench;
 
 	initial
 	begin
-		data_in = 16'd0; start = 0; clk = 0;
-		#2 start = 1;
+		data_in = 16'd0; start = 1'b0; clk = 1'b0; controlP.state = 3'b0;
+		#2 start = 1'b1;
 		# 100 $finish;
 	end
 
@@ -18,13 +18,13 @@ module test_bench;
 
 	initial
 	begin
-		#17 data_in = 17;
+		#7 data_in = 17;
 		#10 data_in = 5;
 	end
 
 	initial
 	begin
-		$monitor($time, " %d, %b", dataP.Y, done);
+		$monitor($time, " %d %d %d %b", dataP.X, dataP.Y, dataP.Bout, done);
 		$dumpfile("mul.vcd"); 
 		$dumpvars(0, test_bench);
 	end
